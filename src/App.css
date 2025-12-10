@@ -1,0 +1,265 @@
+/* 화면 전체를 차지하도록 기본 설정 */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 앱 전체 컨테이너: 화면 기준 중앙 정렬 */
+.app-root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;      /* 세로 가운데 */
+  justify-content: center;  /* 가로 가운데 */
+  background: #111;
+}
+
+/* 내부 콘텐츠도 한 번 더 중앙 정렬 */
+.page-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 카드에 남아 있을 수 있는 여백 제거 */
+.fake-phone {
+  margin: 0;
+}
+
+
+/* 앱 전체 래퍼 */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;      /* 세로 가운데 */
+  justify-content: center;  /* 가로 가운데 */
+  background: #111;
+}
+
+/* 내부 콘텐츠도 한 번 더 가운데 정렬 */
+.page-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 혹시 카드에 margin 남아있으면 제거 */
+.fake-phone {
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #111;
+  color: #fff;
+}
+
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111; /* 배경색 유지 */
+}
+.page-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ----- Fake base page (기존 체크아웃 화면) ----- */
+
+.page-content {
+  transition: opacity 0.6s ease;
+}
+
+.page-content.fade-out {
+  opacity: 0;
+}
+
+.fake-phone {
+  width: 320px;
+  border-radius: 24px;
+  background: #f5f5f5;
+  color: #111;
+  padding: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.phone-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.phone-body h1 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.phone-body p {
+  margin: 0 0 24px;
+  color: #555;
+  font-size: 14px;
+}
+
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: #ffb300;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.primary-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ----- Animation overlay ----- */
+
+.anim-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  /* 초기에는 투명한 흰색 배경에서 시작 */
+  background: #ffffff;
+  transition: background-color 0.5s ease;
+}
+
+/* step 1 이후 파란색 배경으로 변환 (Best Buy 느낌) */
+.anim-overlay.step-1,
+.anim-overlay.step-2,
+.anim-overlay.step-3 {
+  background-color: #0050ff;
+}
+
+.anim-stage {
+  position: relative;
+  width: 320px;
+  height: 640px;
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 32px;
+  border: 12px solid #111;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 로고 애니메이션 */
+
+.anim-logo {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px) scale(0.8);
+  opacity: 0;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-size: 16px;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.anim-logo.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* 로더 (원형 스피너) */
+
+.loader-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 체크마크 애니메이션 */
+
+.checkmark-wrap {
+  width: 72px;
+  height: 72px;
+}
+
+.checkmark-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cm-circle,
+.cm-check {
+  stroke: #ffffff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 원이 그려지는 효과 */
+.cm-circle {
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: draw-circle 0.4s ease-out forwards;
+}
+
+/* 체크가 그려지는 효과 */
+.cm-check {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: draw-check 0.35s ease-out forwards;
+  animation-delay: 0.35s;
+}
+
+@keyframes draw-circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
