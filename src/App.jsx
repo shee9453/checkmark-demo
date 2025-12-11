@@ -6,7 +6,7 @@ import logoSVG from "./assets/wayfairlogo.svg";
 import loadingAnim from "./assets/loading.json";
 import checkmarkAnim from "./assets/checkmark.json";
 
-import productImg from "./assets/test.png";
+import productImg from "./assets/test.PNG";
 import arrowIcon from "./assets/arrow.svg";
 
 /* ----------------- Loader (항상 회전) ----------------- */
