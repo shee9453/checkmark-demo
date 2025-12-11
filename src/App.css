@@ -1,265 +1,181 @@
-/* 화면 전체를 차지하도록 기본 설정 */
-html,
-body,
-#root {
+html, body, #root {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
 }
 
-/* 앱 전체 컨테이너: 화면 기준 중앙 정렬 */
-.app-root {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;      /* 세로 가운데 */
-  justify-content: center;  /* 가로 가운데 */
-  background: #111;
-}
-
-/* 내부 콘텐츠도 한 번 더 중앙 정렬 */
-.page-content {
+.app-shell {
   width: 100%;
   height: 100%;
+  background: #0b0b0f;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 카드에 남아 있을 수 있는 여백 제거 */
-.fake-phone {
-  margin: 0;
+.frame {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  border-radius: 40px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.65);
 }
 
+/******** START 화면 ********/
+.checkout-screen {
+  position: relative;
+  padding: 140px 24px 32px; /* 좌우 여백만 조금 줄이기 */
+  background: #ffffff;
+  z-index: 10;
 
-/* 앱 전체 래퍼 */
-.app-root {
-  min-height: 100vh;
   display: flex;
-  align-items: center;      /* 세로 가운데 */
-  justify-content: center;  /* 가로 가운데 */
-  background: #111;
+  flex-direction: column;
 }
 
-/* 내부 콘텐츠도 한 번 더 가운데 정렬 */
-.page-content {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.logo-start {
+  width: 180px;
 }
 
-/* 혹시 카드에 margin 남아있으면 제거 */
-.fake-phone {
-  margin: 0;
+.logo-start.purple {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(90%)
+          hue-rotate(260deg) saturate(600%) brightness(95%);
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+.absolute-start {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  background: #111;
-  color: #fff;
-}
-
-.app-root {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #111; /* 배경색 유지 */
-}
-.page-content {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* ----- Fake base page (기존 체크아웃 화면) ----- */
-
-.page-content {
-  transition: opacity 0.6s ease;
-}
-
-.page-content.fade-out {
-  opacity: 0;
-}
-
-.fake-phone {
-  width: 320px;
-  border-radius: 24px;
-  background: #f5f5f5;
-  color: #111;
-  padding: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-
-.phone-header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 16px;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.phone-body h1 {
-  margin: 0 0 8px;
-  font-size: 22px;
-}
-
-.phone-body p {
-  margin: 0 0 24px;
-  color: #555;
-  font-size: 14px;
-}
-
-.primary-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: none;
-  background: #ffb300;
-  color: #111;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.primary-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-}
-
-.primary-btn:disabled {
-  opacity: 0.7;
-  cursor: default;
-  box-shadow: none;
-}
-
-/* ----- Animation overlay ----- */
-
-.anim-overlay {
-  position: fixed;
+/******** 배경 *********/
+.purple-light-bg,
+.purple-dark-bg {
+  position: absolute;
   inset: 0;
+  opacity: 0;
+  transition: opacity .6s ease;
+  pointer-events: none;
+}
+
+.purple-light-bg {
+  background: #efd8f8;
+}
+.purple-light-bg.visible {
+  opacity: 1;
+}
+
+.purple-dark-bg {
+  background: #7f1ac9;
+}
+.purple-dark-bg.visible {
+  opacity: 1;
+}
+
+/******** 애니 로고 *********/
+.wayfair-logo {
+  position: absolute;
+  left: 50%;
+  width: 180px;
+  transform: translateX(-50%);
+  transition: all .5s ease;
+  z-index: 20;
+}
+
+.logo-top { top: 7%; }
+.logo-center { top: 35%; }
+.scaled { transform: translateX(-50%) scale(1.2); }
+
+/******** 중앙 애니 박스 ********/
+.center-anim {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  width: 65px;
+  height: 65px;
+  transform: translate(-50%, -40%);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  /* 초기에는 투명한 흰색 배경에서 시작 */
-  background: #ffffff;
-  transition: background-color 0.5s ease;
+  z-index: 30;
 }
 
-/* step 1 이후 파란색 배경으로 변환 (Best Buy 느낌) */
-.anim-overlay.step-1,
-.anim-overlay.step-2,
-.anim-overlay.step-3 {
-  background-color: #0050ff;
+/******** JSON 색상만 흰색으로 바꾸기 *********/
+.lottie-white svg {
+  filter: brightness(0) invert(1);
 }
 
-.anim-stage {
-  position: relative;
-  width: 320px;
-  height: 640px;
-  max-width: 80vw;
-  max-height: 80vh;
-  border-radius: 32px;
-  border: 12px solid #111;
-  background: transparent;
+/* 상품 카드 */
+.item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 0 18px;
+  border-radius: 14px;
+  border: 1px solid #f0f0f3;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+/* 이미지 placeholder */
+.item-img {
+  width: 84px;
+  height: 60px;
+  border-radius: 10px;
+  background: #f3f3f7;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
-/* 로고 애니메이션 */
-
-.anim-logo {
-  position: absolute;
-  top: 18%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-16px) scale(0.8);
-  opacity: 0;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  font-size: 16px;
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+.item-info .title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111015;
+  margin-bottom: 4px;
 }
 
-.anim-logo.visible {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0) scale(1);
+.item-info .sub {
+  font-size: 12px;
+  color: #808089;
 }
 
-/* 로더 (원형 스피너) */
-
-.loader-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #ffffff;
-  animation: spin 0.7s linear infinite;
+/* 금액 요약 */
+.summary {
+  margin-top: 24px;
+  font-size: 13px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.summary .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: #3b3b45;
 }
 
-/* 체크마크 애니메이션 */
-
-.checkmark-wrap {
-  width: 72px;
-  height: 72px;
+.summary .row span:first-child {
+  color: #7b7b86;
 }
 
-.checkmark-svg {
-  width: 100%;
-  height: 100%;
+.summary .row.total {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid #eeeeF2;
+  font-weight: 700;
+  font-size: 14px;
+  color: #111015;
 }
-
-.cm-circle,
-.cm-check {
-  stroke: #ffffff;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* 원이 그려지는 효과 */
-.cm-circle {
-  stroke-dasharray: 160;
-  stroke-dashoffset: 160;
-  animation: draw-circle 0.4s ease-out forwards;
-}
-
-/* 체크가 그려지는 효과 */
-.cm-check {
-  stroke-dasharray: 60;
-  stroke-dashoffset: 60;
-  animation: draw-check 0.35s ease-out forwards;
-  animation-delay: 0.35s;
-}
-
-@keyframes draw-circle {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes draw-check {
-  to {
-    stroke-dashoffset: 0;
-  }
+.checkout-btn{
+  background: #7f1ac9;
+  color: #eeeeF2;
 }
