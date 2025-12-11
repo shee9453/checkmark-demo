@@ -6,28 +6,32 @@ import logoSVG from "./assets/wayfairlogo.svg";
 import loadingAnim from "./assets/loading.json";
 import checkmarkAnim from "./assets/checkmark.json";
 
-// Loader (모양 그대로, 흰색 필터)
+import productImg from "./assets/test.png";
+import arrowIcon from "./assets/arrow.svg";
+
+/* ----------------- Loader (항상 회전) ----------------- */
 function Loader() {
   const { View } = useLottie({
     animationData: loadingAnim,
     loop: true,
     autoplay: true,
-    style: { width: 65, height: 65 },
+    style: { width: 80, height: 80 },
   });
   return <div className="lottie-white">{View}</div>;
 }
 
-// Checkmark (모양 그대로, 흰색 필터)
+/* ----------------- Checkmark ----------------- */
 function Checkmark() {
   const { View } = useLottie({
     animationData: checkmarkAnim,
     loop: false,
     autoplay: true,
-    style: { width: 65, height: 65 },
+    style: { width: 50, height: 50 },
   });
   return <div className="lottie-white">{View}</div>;
 }
 
+/* ----------------- Main App ----------------- */
 export default function App() {
   const [phase, setPhase] = useState("start");
 
@@ -39,7 +43,7 @@ export default function App() {
     if (phase === "light") t = setTimeout(() => setPhase("dark"), 300);
     else if (phase === "dark") t = setTimeout(() => setPhase("scale"), 400);
     else if (phase === "scale") t = setTimeout(() => setPhase("loading"), 600);
-    else if (phase === "loading") t = setTimeout(() => setPhase("checkmark"), 900);
+    else if (phase === "loading") t = setTimeout(() => setPhase("checkmark"), 2500);
 
     return () => clearTimeout(t);
   }, [phase]);
@@ -55,51 +59,122 @@ export default function App() {
   return (
     <div className="app-shell">
       <div className="frame">
-
         {/* 연보라 배경 */}
         <div className={`purple-light-bg${showLightBg ? " visible" : ""}`} />
 
         {/* 진보라 배경 */}
         <div className={`purple-dark-bg${showDarkBg ? " visible" : ""}`} />
 
-        {/* 애니메이션 단계 로고 */}
+        {/* 애니 단계 로고 */}
         {phase !== "start" && (
           <img src={logoSVG} className={logoClass} alt="wayfair" />
         )}
 
-        {/* 중앙 애니 */}
+        {/* 중앙 애니
+            - loading: Lottie 로더 회전
+            - checkmark: 정지된 원(static-ring) + 체크마크 겹침 */}
         <div className="center-anim">
-          {phase === "loading" && <Loader />}
-          {phase === "checkmark" && <Checkmark />}
+          <div className="center-anim-layer">
+            {phase === "loading" && <Loader />}
+
+            {phase === "checkmark" && (
+              <>
+                <div className="static-ring" />
+                <Checkmark />
+              </>
+            )}
+          </div>
         </div>
 
-        {/* 시작 화면 */}
+        {/* START 화면 = Cart UI */}
         {phase === "start" && (
           <div className="checkout-screen">
-            <img src={logoSVG} className="logo-start purple absolute-start" />
+            {/* 로고 */}
+            <div className="cart-header">
+              <img src={logoSVG} className="cart-logo" alt="Wayfair" />
+            </div>
 
-            <h2>Your Order</h2>
+            {/* 상품 영역 */}
+            <div className="cart-item">
+              <img
+                src={productImg}
+                alt="Rolling Folding Bed"
+                className="cart-item-image"
+              />
 
-            <div className="item">
-              <div className="item-img" />
-              <div className="item-info">
-                <div className="title">Modern Standing Lamp</div>
-                <div className="sub">Ships in 1–2 days</div>
+              <div className="cart-item-main">
+                <div className="cart-item-top">
+                  <div className="cart-item-title">Rolling Folding Bed</div>
+                  <div className="cart-item-price">$90</div>
+                </div>
+
+                <div className="cart-item-bottom">
+                  <div className="cart-qty">
+                    <span>1</span>
+                    <span className="caret caret-down" />
+                  </div>
+
+                  <img
+                    src={productImg}
+                    alt="Rolling Folding Bed small"
+                    className="cart-thumb"
+                  />
+
+                  <div className="cart-option">
+                    <span className="caret caret-down" />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="summary">
-              <div className="row"><span>Subtotal</span><span>$120.00</span></div>
-              <div className="row"><span>Shipping</span><span>$9.99</span></div>
-              <div className="row total"><span>Total</span><span>$129.99</span></div>
+            {/* Shipping / Delivery / Payment / Total */}
+            <div className="cart-sections">
+              <div className="cart-row cart-row-disabled">
+                <div className="cart-row-text">
+                  <div className="cart-row-label">Shipping</div>
+                  <div className="cart-row-sub">Est-</div>
+                </div>
+                <img
+                  src={arrowIcon}
+                  alt=""
+                  className="cart-row-arrow disabled"
+                />
+              </div>
+
+              <div className="cart-row">
+                <div className="cart-row-text">
+                  <div className="cart-row-label">Delivery</div>
+                  <div className="cart-row-sub">Add</div>
+                </div>
+                <img src={arrowIcon} alt="" className="cart-row-arrow" />
+              </div>
+
+              <div className="cart-row">
+                <div className="cart-row-text">
+                  <div className="cart-row-label">Payment</div>
+                  <div className="cart-row-sub">Add</div>
+                </div>
+                <img src={arrowIcon} alt="" className="cart-row-arrow" />
+              </div>
+
+              <div className="cart-total-row">
+                <div className="cart-total-label">Est Total</div>
+                <div className="cart-total-value">
+                  <span>$294</span>
+                  <img src={arrowIcon} alt="" className="cart-row-arrow" />
+                </div>
+              </div>
             </div>
 
+            {/* Checkout 버튼 */}
             <button className="checkout-btn" onClick={handleCheckout}>
               Checkout
             </button>
+
+            {/* 하단 홈 바 */}
+            <div className="home-indicator" />
           </div>
         )}
-
       </div>
     </div>
   );

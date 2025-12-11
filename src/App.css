@@ -1,8 +1,19 @@
+/* SOFIA PRO FONT */
+@font-face {
+  font-family: "SofiaPro";
+  src: url("./assets/sofia-pro-bold.otf") format("opentype");
+  font-weight: 700;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+}
+
+body {
+  font-family: "SofiaPro", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .app-shell {
@@ -24,32 +35,205 @@ html, body, #root {
   box-shadow: 0 24px 80px rgba(0,0,0,0.65);
 }
 
-/******** START 화면 ********/
+/******** START 화면 (Cart Screen) ********/
 .checkout-screen {
   position: relative;
-  padding: 140px 24px 32px; /* 좌우 여백만 조금 줄이기 */
-  background: #ffffff;
-  z-index: 10;
-
   display: flex;
   flex-direction: column;
+  padding: 32px 28px 24px;
+  background: #ffffff;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 10;
 }
 
-.logo-start {
-  width: 180px;
+/* 로고 영역 */
+.cart-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
 }
 
-.logo-start.purple {
+.cart-logo {
+  height: 32px;
   filter: brightness(0) saturate(100%) invert(20%) sepia(90%)
           hue-rotate(260deg) saturate(600%) brightness(95%);
 }
 
-.absolute-start {
-  position: absolute;
-  top: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
+/* 상품 섹션 */
+.cart-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.cart-item-image {
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+.cart-item-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.cart-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #000;
+}
+
+.cart-item-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+/* 아래쪽 (수량 / 썸네일 / 옵션) */
+.cart-item-bottom {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.caret-down {
+  border-top: 6px solid #000;
+}
+
+.cart-thumb {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
+.cart-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+}
+
+/* 섹션 리스트 */
+.cart-sections {
+  margin-top: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cart-row-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+.cart-row-sub {
+  font-size: 16px;
+  color: #a3a3a8;
+}
+
+.cart-row-disabled .cart-row-label {
+  color: #000;
+}
+
+.cart-row-disabled .cart-row-sub {
+  color: #d3d3d7;
+}
+
+.cart-row-arrow {
+  width: 10px;
+  height: 10px;
+}
+
+.cart-row-arrow.disabled {
+  opacity: 0.4;
+}
+
+/* Total */
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.cart-total-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+.cart-total-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #999aa2;
+}
+
+/* Checkout 버튼 (하단) */
+.checkout-btn {
+  width: 100%;
+  padding: 18px 0;
+  border: none;
+  border-radius: 999px;
+  background: #7f1ac9;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* 홈 인디케이터 (하단 검은 바) */
+.home-indicator {
+  width: 140px;
+  height: 4px;
+  border-radius: 999px;
+  background: #000;
+  opacity: 0.85;
+  margin: 12px auto 0;
 }
 
 /******** 배경 *********/
@@ -65,6 +249,7 @@ html, body, #root {
 .purple-light-bg {
   background: #efd8f8;
 }
+
 .purple-light-bg.visible {
   opacity: 1;
 }
@@ -72,6 +257,7 @@ html, body, #root {
 .purple-dark-bg {
   background: #7f1ac9;
 }
+
 .purple-dark-bg.visible {
   opacity: 1;
 }
@@ -83,14 +269,25 @@ html, body, #root {
   width: 180px;
   transform: translateX(-50%);
   transition: all .5s ease;
+  transform-origin: center;
   z-index: 20;
 }
 
-.logo-top { top: 7%; }
-.logo-center { top: 35%; }
-.scaled { transform: translateX(-50%) scale(1.2); }
+.logo-top {
+  top: 3%;
+  transform: translateX(-50%) scale(0.8);
+}
 
-/******** 중앙 애니 박스 ********/
+.logo-center {
+  top: 35%;
+  transform: translateX(-50%) scale(1);
+}
+
+.scaled {
+  transform: translateX(-50%) scale(1.2);
+}
+
+/******** 중앙 애니 박스 *********/
 .center-anim {
   position: absolute;
   top: 52%;
@@ -105,77 +302,33 @@ html, body, #root {
   z-index: 30;
 }
 
-/******** JSON 색상만 흰색으로 바꾸기 *********/
-.lottie-white svg {
-  filter: brightness(0) invert(1);
+.center-anim-layer {
+  position: relative;
+  width: 65px;
+  height: 65px;
 }
 
-/* 상품 카드 */
-.item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px 0 18px;
-  border-radius: 14px;
-  border: 1px solid #f0f0f3;
-  background: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-}
-
-/* 이미지 placeholder */
-.item-img {
-  width: 84px;
+/* 체크마크 단계의 정지 원 */
+.static-ring {
+  width: 60px;
   height: 60px;
-  border-radius: 10px;
-  background: #f3f3f7;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.70);
+  border-radius: 50%;
+  border: 5px solid #ffffff;
 }
-
-.item-info {
-  flex: 1;
+/* Lottie 컨테이너 겹치기 */
+.center-anim-layer .lottie-white {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.item-info .title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #111015;
-  margin-bottom: 4px;
-}
-
-.item-info .sub {
-  font-size: 12px;
-  color: #808089;
-}
-
-/* 금액 요약 */
-.summary {
-  margin-top: 24px;
-  font-size: 13px;
-}
-
-.summary .row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 0;
-  color: #3b3b45;
-}
-
-.summary .row span:first-child {
-  color: #7b7b86;
-}
-
-.summary .row.total {
-  margin-top: 4px;
-  padding-top: 12px;
-  border-top: 1px solid #eeeeF2;
-  font-weight: 700;
-  font-size: 14px;
-  color: #111015;
-}
-.checkout-btn{
-  background: #7f1ac9;
-  color: #eeeeF2;
+/******** JSON 색상만 흰색으로 바꾸기 *********/
+.lottie-white svg {
+  filter: brightness(0) invert(1);
 }
